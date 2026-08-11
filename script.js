@@ -1,83 +1,102 @@
-//random pokemon 
-//add name
-//remove when click 
-//add some styles to that
-
 const pokemoncontainer = document.getElementById('pokemon-container');
 const btnPokemon = document.getElementById('btn-pokemon');
-btnPokemon.addEventListener('click', async () => {
+const btnReset = document.getElementById('btn-reset');
+const btnFind = document.getElementById('btn-find');
+const pokemonInput = document.getElementById('pokemon-box');
 
-    //const RandomPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/67');
-    pokemoncontainer.innerHTML = '';   // ล้าง Pokémon ตัวเก่า
+// ฟังก์ชันสร้างการ์ดโปเกมอน (ใช้ซ้ำทั้งปุ่ม Random และ Find)
+function createPokemonCard(data) {
+    const div = document.createElement('div');
+    div.classList.add('pokemon-card', 'pokemon-pop'); // ใส่ class อนิเมชัน popUp
+
+    const img = document.createElement('img');
+    img.classList.add('pokemon-image');
+    // ใช้ภาพ Official Artwork จะได้ภาพคมชัดสูงกว่า front_default
+    img.src = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+
+    const name = document.createElement('p');
+    name.classList.add('pokemon-name');
+    name.textContent = data.name;
+
+    div.append(img);
+    div.append(name);
+
+    // คลิกที่การ์ดเพื่อลบทิ้ง
+    div.addEventListener('click', () => {
+        div.remove();
+    });
+
+    return div;
+}
+
+// 1. ปุ่ม สุ่มโปเกมอน (Random Pokemon)
+btnPokemon.addEventListener('click', async () => {
+    pokemoncontainer.innerHTML = ''; // ล้าง Pokémon ตัวเก่า
 
     try {
-        const randomPokemon = Math.floor(Math.random() * 1000);    // สุ่มหมายเลข Pokémon 
+        const randomPokemon = Math.floor(Math.random() * 1025) + 1; // สุ่ม ID (1 - 1025)
 
+        // แสดงลูกบอล Pokeball แล้วสั่งให้เขย่าลุ้นก่อน
+        const pokeballImg = document.createElement('img');
+        pokeballImg.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
+        pokeballImg.classList.add('pokeball-shake');
+        pokemoncontainer.append(pokeballImg);
+
+        // ดึงข้อมูลจาก API (แก้จุดผิด Syntax เพิ่มเครื่องหมาย ` ` แล้ว)
         const RandomPokemon = await fetch(
             `https://pokeapi.co/api/v2/pokemon/${randomPokemon}`
         );
         const data = await RandomPokemon.json();
-        console.log(data);
 
-        // progressX.innerHTML = `${data.name} <img src="${data.sprites.front_default}">`;
-
-        const div = document.createElement('div');   // สร้างกล่องสำหรับ Pokémon
-        div.classList.add('pokemon-card');           // เพิ่ม class ให้กล่อง
-
-        const img = document.createElement('img');     // สร้างรูป Pokémon
-        img.classList.add('pokemon-image');             // เพิ่ม class ให้รูป
-        img.src = data.sprites.front_default;           // เอารูปจาก API มาใส่
-
-        const name = document.createElement('p');       // สร้างชื่อ Pokémon
-        name.classList.add('pokemon-name');              // เพิ่ม class ให้ชื่อ
-        name.textContent = data.name;                   // เอาชื่อจาก API มาใส่
-
-        // เอารูปและชื่อใส่ในกล่อง
-        div.append(img);
-        div.append(name);
-        pokemoncontainer.append(div);        // เอากล่อง Pokémon ไปแสดงในหน้าเว็บ
+        // รอให้ลูกบอลเขย่า 1.5 วินาที แล้วเปิดออกเป็นตัวโปเกมอน
+        setTimeout(() => {
+            pokemoncontainer.innerHTML = ''; // ลบลูกบอลออก
+            const pokemonCard = createPokemonCard(data);
+            pokemoncontainer.append(pokemonCard); // แสดงรูป + ชื่อโปเกมอน
+        }, 1500);
 
     } catch (error) {
         console.log(error);
-    };
-
+        pokemoncontainer.innerHTML = '<p style="color:white;">เกิดข้อผิดพลาด ลองใหม่อีกครั้ง</p>';
+    }
 });
 
-const btnReset = document.getElementById('btn-reset');
-
-
-btnReset.addEventListener('click', () => {
-    pokemoncontainer.innerHTML = '';
-});
-
-const btnFind = document.getElementById('btn-find');
-const pokemonInput = document.getElementById('pokemon-box');
-
+// 2. ปุ่ม ค้นหาโปเกมอน (Find Pokemon)
 btnFind.addEventListener('click', async () => {
     const searchValue = pokemonInput.value.trim().toLowerCase();
     if (!searchValue) return; // ถ้าไม่ได้พิมพ์อะไรมา ให้ข้าม
+
     pokemoncontainer.innerHTML = ''; // ล้างตัวเก่าก่อน
+
     try {
+        // แสดงลูกบอลเขย่าระหว่างรอโหลด
+        const pokeballImg = document.createElement('img');
+        pokeballImg.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
+        pokeballImg.classList.add('pokeball-shake');
+        pokemoncontainer.append(pokeballImg);
+
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchValue}`);
         if (!response.ok) {
             throw new Error('Pokemon not found');
         }
         const data = await response.json();
-        // นำข้อมูล data มาสร้างการแสดงผล (img + name) เช่นเดียวกับปุ่ม Random
-        const div = document.createElement('div');
-        div.classList.add('pokemon-card');
-        const img = document.createElement('img');
-        img.classList.add('pokemon-image');
-        img.src = data.sprites.front_default;
-        const name = document.createElement('p');
-        name.classList.add('pokemon-name');
-        name.textContent = data.name;
-        div.append(img);
-        div.append(name);
-        pokemoncontainer.append(div);
+
+        // หน่วงเวลา 1 วินาทีให้เห็นลูกบอลเปิดตัว
+        setTimeout(() => {
+            pokemoncontainer.innerHTML = '';
+            const pokemonCard = createPokemonCard(data);
+            pokemoncontainer.append(pokemonCard);
+        }, 1000);
+
     } catch (error) {
         console.log(error);
+        pokemoncontainer.innerHTML = '';
         alert('ไม่พบข้อมูล Pokémon นี้');
     }
 });
 
+// 3. ปุ่ม รีเซ็ต (Reset)
+btnReset.addEventListener('click', () => {
+    pokemoncontainer.innerHTML = '';
+    pokemonInput.value = ''; // เคลียร์ข้อความใน ช่องค้นหา ด้วย
+});

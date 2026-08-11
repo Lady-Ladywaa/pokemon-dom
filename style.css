@@ -1,63 +1,204 @@
+/* 1. ดึงฟอนต์สไตล์เกมโปเกมอนยุคคลาสสิกจาก Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 500px;
-    margin: 0;
-    font-family: Arial, sans-serif;
-
-    /* เปลี่ยนเป็น Direct Link ที่ขึ้นต้นด้วย i.postimg.cc */
-    background-image: url('https://i.postimg.cc/nzS365bR/bg-pokemon.jpg');
-
-    /* แนะนำใส่เพิ่มเพื่อให้รูปปรับขนาดเต็มหน้าจอสวยงาม */
-    background-size: cover;
-    /* ขยายรูปให้เต็มพื้นที่ */
-
-    /* จัดรูปให้อยู่ตรงกลาง */
-    background-repeat: no-repeat;
-    /* ป้องกันไม่ให้รูปแสดงซ้ำ */
-}
-
-
-#pokemon-container {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
-}
-
-h1 {
-    margin-top: 20px;
-}
-
-#pokemon-box {
-    width: 200px;
-    height: 40px;
-    margin-top: 20px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #000000;
-}
-
-#btn-find,
-#btn-pokemon,
-#btn-reset {
-    width: 150px;
-    height: 40px;
-    margin-top: 20px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #000000;
-    cursor: pointer;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* Background */
+    background-image: url('https://i.postimg.cc/cL5YHV03/Gemini-Generated-Image-jc6bp2jc6bp2jc6b.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 #hero-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 300px; /* ล็อกความกว้างให้พอดีสวยงาม */
+    padding: 25px 20px;
+    
+    /* เอฟเฟกต์กระจกใสเรืองแสง (Glassmorphism) */
+    background: rgba(20, 25, 40, 0.75); /* โทนเข้มสไตล์ UI เกม */
+    backdrop-filter: blur(12px); /* เบลอพื้นหลังด้านหลังกล่อง */
+    -webkit-backdrop-filter: blur(12px);
+    
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.295), 
+                0 0 15px rgba(195, 0, 255, 0.596); /* แสงเรืองทองรอบกล่อง */
+    margin-top: 400px;
+    transition: all 0.3s ease;
+}
+
+/* 2. ปรับแต่งหัวข้อ "Random your Pokemon" ให้เป็นสไตล์โปเกมอน */
+.header-title {
+    font-family: 'Press Start 2P', cursive; /* เรียกใช้ฟอนต์โปเกมอน */
+    font-size: 1rem;                         /* ปรับขนาดลงเล็กน้อยเพราะฟอนต์พิกเซลจะกว้างกว่าปกติ */
+    line-height: 1.4;
+    color: #ffcb05;                          /* สีเหลืองโปเกมอน */
+    
+    /* ทำขอบสีน้ำเงินสไตล์โลโก้โปเกมอน */
+    text-shadow: 
+        -2px -2px 0 #2a75bb,
+         2px -2px 0 #2a75bb,
+        -2px  2px 0 #2a75bb,
+         2px  2px 0 #2a75bb,
+         0px  4px 8px rgba(0, 0, 0, 0.8);
+         
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+#pokemon-container {
+    width: 100%;
+    height: 160px; /* ล็อกความสูงไว้เป๊ะๆ กล่องจะไม่ขยายยาวอีกต่อไป */
+    display: flex;
     justify-content: center;
-    background-color: burlywood;
-    border-radius: 50px;
-    padding: 20px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.pokemon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.048);
+    border: 1px solid rgba(255, 255, 255, 0.308);
+    border-radius: 16px;
+    padding: 10px;
+    width: 140px;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+.pokemon-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+}
+
+.pokemon-name {
+    margin: 5px 0 0 0;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#pokemon-box {
+    width: 85%;
+    height: 38px;
+    padding: 0 15px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    text-align: center;
+    outline: none;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+#pokemon-box:focus {
+    border-color: #ffcb05;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+/* สไตล์ปุ่มกดตกแต่งใหม่ */
+#btn-find,
+#btn-pokemon,
+#btn-reset {
+    width: 90%;
+    height: 40px;
+    margin-top: 8px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#btn-find {
+    background: linear-gradient(135deg, #3b4cca, #2a3a9e);
+    color: white;
+}
+
+/* สีปุ่ม สุ่ม */
+#btn-pokemon {
+    background: linear-gradient(135deg, #ffcb05, #e6b800);
+    color: #1d2c5e;
+}
+
+/* สีปุ่ม รีเซ็ต */
+#btn-reset {
+    background: linear-gradient(135deg, #ff5350, #cc2926);
+    color: white;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ปุ่ม */
+#btn-find:hover,
+#btn-pokemon:hover,
+#btn-reset:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.1);
+}
+
+#btn-find:active,
+#btn-pokemon:hover,
+#btn-reset:active {
+    transform: translateY(0);
+}
+
+.pokeball-shake {
+    width: 70px;
+    height: 70px;
+    animation: shake 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(-15deg); }
+    40% { transform: rotate(15deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.pokemon-pop {
+    animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pokeball-shake {
+    width: 70px !important;
+    height: 70px !important;
+    object-fit: contain;
+    animation: shake 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(-15deg); }
+    40% { transform: rotate(15deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
 }
