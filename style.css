@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 500px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    /* เปลี่ยนเป็น Direct Link ที่ขึ้นต้นด้วย i.postimg.cc */
+    background-image: url('https://i.postimg.cc/nzS365bR/bg-pokemon.jpg');
+
+    /* แนะนำใส่เพิ่มเพื่อให้รูปปรับขนาดเต็มหน้าจอสวยงาม */
+    background-size: cover;
+    /* ขยายรูปให้เต็มพื้นที่ */
+
+    /* จัดรูปให้อยู่ตรงกลาง */
+    background-repeat: no-repeat;
+    /* ป้องกันไม่ให้รูปแสดงซ้ำ */
+}
+
+
+#pokemon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#pokemon-box {
+    width: 200px;
+    height: 40px;
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+}
+
+#btn-find,
+#btn-pokemon,
+#btn-reset {
+    width: 150px;
+    height: 40px;
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    cursor: pointer;
+}
+
+#hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: burlywood;
+    border-radius: 50px;
+    padding: 20px;
+}
